@@ -1,0 +1,54 @@
+.header {
+    margin-top: 35px;
+}
+
+.header .header__right {
+    margin-top: -75px;
+    float: right;
+}
+
+.header .header__right img {
+    height: 100px;
+    width: 100px;
+}
+
+.search_product {
+    margin-top: 50px;
+    position: relative;
+}
+
+.search_product input {
+    text-align: center;
+}
+
+.search_product i {
+    position: absolute;
+    left: 46%;
+    top: 33%;
+    color: cyan;
+}
+
+.add_resultSearch {
+    margin-top: 20px;
+}
+
+.add_resultSearch ul {
+    padding: 0;
+    display: flex;
+    list-style: none;
+    justify-content: space-between;
+}
+
+.add_resultSearch ul li i {
+    color: blue;
+    font-size: 40px;
+}
+
+.add_resultSearch ul li i:hover {
+    color: green
+}
+
+.pagination__nav {
+    justify-content: center;
+    display: flex;
+}
