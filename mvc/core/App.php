@@ -2,7 +2,7 @@
 
 class App{
     
-    protected $controller="Home";
+    protected $controller="Product";
     protected $action="showProduct";
     protected $params=[];
     

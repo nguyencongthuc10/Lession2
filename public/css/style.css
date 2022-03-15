@@ -2,12 +2,14 @@
     margin-top: 35px;
 }
 
-.header .header__right {
-    margin-top: -75px;
-    float: right;
+.header__left {
+    position: relative;
 }
 
-.header .header__right img {
+#logo {
+    top: -30px;
+    position: absolute;
+    right: 0;
     height: 100px;
     width: 100px;
 }
@@ -51,4 +53,44 @@
 .pagination__nav {
     justify-content: center;
     display: flex;
+}
+
+.show__product table th {
+    border: 1px solid #000;
+}
+
+.show__product table td {
+    border: 1px solid #000;
+}
+
+.show__product table tr th {
+    border: 1px solid #000;
+}
+
+.show__product table tr {
+    border: 1px solid #000;
+    text-align: center;
+}
+
+.show__product table tr td {
+    vertical-align: middle;
+}
+
+.show__product .operations i {
+    margin-right: 5px;
+    color: blue;
+}
+
+.show__product .imgShowProdcut img {
+    height: 100px;
+    width: 100px;
+}
+
+.modalCRUD .modal-footer {
+    display: inline;
+    -webkit-box-pack: start;
+}
+
+.form-message {
+    color: red;
 }
