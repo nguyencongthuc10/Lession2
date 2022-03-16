@@ -11,6 +11,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="/<?php echo BASE_URL; ?>/public/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
@@ -36,10 +37,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                         
                         <div class="show__product">
                             <table class="table table-bordered">
-                                
-                                    
-                              
-                                    
+  
                                     <?php 
                                     // check data['product'] exist
                                         if(isset($data['products']) && isset($data['Categories'])){
@@ -53,7 +51,8 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                                     </div>
                                     <div class="add_resultSearch">
                                         <ul>
-                                            <li><span>Search found</span> 15 <span>results</span></li>
+                                            <li></li>
+                                            <!-- <li><span>Search found</span> 15 <span>results</span></li> -->
                                             <li><i class="fa fa-plus-circle" aria-hidden="true" data-toggle="modal" data-target="#addProduct"></i>
                                             </li>
                                         </ul>
@@ -87,7 +86,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                                         <td>
                                             <div class="operations">
                                                 <span data-toggle="tooltip" data-html="true" data-placement="bottom" title="Edit">
-                                                    <a href="#" data-toggle="modal" data-target="#editProduct"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    <a href="#" data-id="<?php echo $pro['id'] ?>" id="editProductJs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                 </span>
                                                 <span data-toggle="tooltip" data-html="true" data-placement="bottom" title="Add">
                                                     <a href="#" data-toggle="modal" data-target="#addProduct"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
@@ -156,7 +155,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                                                             <?php  
                                                                 foreach ($data['Categories'] as $cateOption) {      
                                                             ?>
-                                                                <option><?php echo $cateOption['category_name']; ?></option>
+                                                                <option value="<?php echo $cateOption['id']?>"><?php echo $cateOption['category_name']; ?></option>
                                                             
                                                             <?php } ?>
                                                         </select>
@@ -183,7 +182,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Add new product</h5>
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Edit product</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -226,7 +225,7 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Add new product</h5>
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Detail Product</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -337,4 +336,35 @@ $_SESSION['token'] = md5(uniqid(mt_rand(), true));
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 <script src="/<?php echo BASE_URL; ?>/public/js/validation.js"></script>
 <script src="/<?php echo BASE_URL; ?>/public/js/script.js"></script>
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('#editProductJs').click(function(){
+        var id = $(this).data('id');
+        // $('#editProduct').modal('show');
+        alert(id);
+    });
+    // show edit product ajax
+    function showEditProductAjax($id) {
+            $.ajax({
+                method: 'post',
+                url: '{{ url('/Product/editProduct/') }}',
+                timeout: 3000,
+                data: {
+
+                    id: $id,
+                },
+                success: function(data) {
+
+                    $('#searchAjax').html(data);
+                }
+            });
+        }
+</script>
 </html>
+
+<!-- data-toggle="modal" data-target="#editProduct" -->

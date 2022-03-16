@@ -2,10 +2,6 @@
 
 class Product extends Controller{
     
-        public function functionShare(){
-            $allCategories = $this->model('CategoryModel');
-            $allProducts = $this->model('ProductModel');
-        }
     
     
     // show products and categories
@@ -21,9 +17,10 @@ class Product extends Controller{
     }
     // add new product
     public function newProduct(){
+        
+        if(isset($_POST['productName'])){
         $productName = $_POST['productName'];
         $categoryId = $_POST['categoryId'];
-        if(isset($_POST['productName'])){
             $target_dir = "public/images/";
         // $target_file specifies the path of the file to be uploaded
         $target_file = $target_dir . basename($_FILES["productImage"]["name"]);
@@ -39,52 +36,68 @@ class Product extends Controller{
             echo "File is an image - " . $check["mime"] . ".";
             $uploadOk = 1;
         } else {
-            echo "File is not an image.";
+            $message = "File is not an image.";
+            echo "<script type='text/javascript'>alert('$message');</script>";
             $uploadOk = 0;
+            $this->showProduct();
+            return;
         }
         }
 
         // Check if file already exists
         if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
+        $message = "Sorry, file already exists.";
+        echo "<script type='text/javascript'>alert('$message');</script>";
         $uploadOk = 0;
+        $this->showProduct();
+        return;
         }
 
         // Check file size
         if ($_FILES["productImage"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
+        $message = "Sorry, your file is too large.";
+        echo "<script type='text/javascript'>alert('$message');</script>";
         $uploadOk = 0;
+        $this->showProduct();
+        return;
         }
 
         // Allow certain file formats
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
     ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $message = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        echo "<script type='text/javascript'>alert('$message');</script>";
         $uploadOk = 0;
+        $this->showProduct();
+        return;
         }
 
         //Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
+            $message = "Sorry, there was an error uploading your file.";
+            echo "<script type='text/javascript'>alert('$message');</script>";
         // if everything is ok, try to upload file
         } else {
+            $insertProduct = $this->model('ProductModel');          
+             $insertProduct->addProduct($productName, $categoryId, $_FILES["productImage"]["name"]);
         if (move_uploaded_file($_FILES["productImage"]["tmp_name"], $target_file)) {
-            echo "The file ". htmlspecialchars( basename( $_FILES["productImage"]["name"])). " has been uploaded.";
+            $message = "Successfully ADD.";
+            echo "<script type='text/javascript'>alert('$message');</script>"; 
+            
+            $this->showProduct();
+           
         } else {
-            echo "Sorry, there was an error uploading your file.";
+            $message = "Sorry, there was an error uploading your file.";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            $this->showProduct();
         }
         }
        
        
         }else{
-            functionShare();
-            $this->view("managerProduct", [
-                "Categories"=>$allCategories->getCategoryList(),
-                "products"=>$allProducts->getProductList()
-
-            ]);
+            $this->showProduct();
         }
-        // $target_dir = "uploads/" - specifies the directory where the file is going to be placed
+        
        
         
     }
